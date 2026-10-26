@@ -3,37 +3,52 @@ const addButton = document.querySelector('.task-row-wrapper button');
 const todoList = document.getElementById('incompleteTasks');
 const completedList = document.getElementById('completed-tasks');
 
-const createTaskElement = function (taskText) {
-  const listItem = document.createElement('li');
-
+const createCheckbox = function () {
   const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  return checkbox;
+};
+
+const createLabel = function (taskText) {
   const label = document.createElement('label');
-  const editInput = document.createElement('input');
-  const editButton = document.createElement('button');
-
-  const deleteButton = document.createElement('button');
-  const deleteIcon = document.createElement('img');
-
   // innerText, not innerHTML: the task text is typed by the user and must not be parsed as markup.
   label.innerText = taskText;
   label.className = 'task';
+  return label;
+};
 
-  checkbox.type = 'checkbox';
+const createEditInput = function () {
+  const editInput = document.createElement('input');
   editInput.type = 'text';
   editInput.className = 'task';
+  return editInput;
+};
 
+const createEditButton = function () {
+  const editButton = document.createElement('button');
   editButton.innerText = 'Edit';
   editButton.className = 'edit';
+  return editButton;
+};
 
+const createDeleteButton = function () {
+  const deleteButton = document.createElement('button');
+  const deleteIcon = document.createElement('img');
   deleteButton.className = 'delete';
   deleteIcon.src = './remove.svg';
   deleteButton.appendChild(deleteIcon);
+  return deleteButton;
+};
 
-  listItem.appendChild(checkbox);
-  listItem.appendChild(label);
-  listItem.appendChild(editInput);
-  listItem.appendChild(editButton);
-  listItem.appendChild(deleteButton);
+const createTaskElement = function (taskText) {
+  const listItem = document.createElement('li');
+  listItem.append(
+    createCheckbox(),
+    createLabel(taskText),
+    createEditInput(),
+    createEditButton(),
+    createDeleteButton(),
+  );
   return listItem;
 };
 
@@ -77,8 +92,6 @@ const moveTaskByCheckbox = function (event) {
   targetList.appendChild(listItem);
 };
 
-addButton.addEventListener('click', addTask);
-
 const bindTaskEvents = function (listItem) {
   const checkbox = listItem.querySelector('input[type=checkbox]');
   const editButton = listItem.querySelector('button.edit');
@@ -89,4 +102,5 @@ const bindTaskEvents = function (listItem) {
   checkbox.addEventListener('change', moveTaskByCheckbox);
 };
 
+addButton.addEventListener('click', addTask);
 [...todoList.children, ...completedList.children].forEach(bindTaskEvents);
