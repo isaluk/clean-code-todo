@@ -1,22 +1,22 @@
-import js from "@eslint/js";
-import globals from "globals";
-import eslintConfigPrettier from "eslint-config-prettier";
+import js from '@eslint/js';
+import globals from 'globals';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
   js.configs.recommended,
   {
-    files: ["app.js"],
+    files: ['app.js'],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "script",
+      ecmaVersion: 'latest',
+      sourceType: 'script',
       globals: {
         ...globals.browser,
       },
     },
     rules: {
-      "no-var": "error",
-      "prefer-const": "error",
-      "no-console": "error",
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'no-console': 'error',
     },
   },
   eslintConfigPrettier,
