@@ -47,8 +47,8 @@ const addTask = function () {
   taskInput.value = '';
 };
 
-const toggleEditMode = function () {
-  const listItem = this.parentNode;
+const toggleEditMode = function (event) {
+  const listItem = event.currentTarget.closest('li');
 
   const editInput = listItem.querySelector('input[type=text]');
   const label = listItem.querySelector('label');
@@ -66,15 +66,14 @@ const toggleEditMode = function () {
   listItem.classList.toggle('editMode');
 };
 
-const deleteTask = function () {
-  const listItem = this.parentNode;
-  const taskList = listItem.parentNode;
-  taskList.removeChild(listItem);
+const deleteTask = function (event) {
+  event.currentTarget.closest('li').remove();
 };
 
-const moveTaskByCheckbox = function () {
-  const listItem = this.parentNode;
-  const targetList = this.checked ? completedList : todoList;
+const moveTaskByCheckbox = function (event) {
+  const checkbox = event.currentTarget;
+  const listItem = checkbox.closest('li');
+  const targetList = checkbox.checked ? completedList : todoList;
   targetList.appendChild(listItem);
 };
 
@@ -85,9 +84,9 @@ const bindTaskEvents = function (listItem) {
   const editButton = listItem.querySelector('button.edit');
   const deleteButton = listItem.querySelector('button.delete');
 
-  editButton.onclick = toggleEditMode;
-  deleteButton.onclick = deleteTask;
-  checkbox.onchange = moveTaskByCheckbox;
+  editButton.addEventListener('click', toggleEditMode);
+  deleteButton.addEventListener('click', deleteTask);
+  checkbox.addEventListener('change', moveTaskByCheckbox);
 };
 
 [...todoList.children, ...completedList.children].forEach(bindTaskEvents);
